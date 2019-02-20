@@ -4,8 +4,6 @@ import tensorflow as tf
 import collections
 import utils
 
-
-
 env = gym.make('CartPole-v1')
 np.random.seed(1)
 
