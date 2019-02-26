@@ -4,13 +4,13 @@ import numpy as np
 
 np.random.seed(42)
 
-def saveModel(save_path):
-    init_op = tf.initialize_all_variables()
-    saver = tf.train.Saver()
-    sess = tf.Session()
-    sess.run(init_op)
-    c_utils.createDir(save_path)
-    saver.save(sess, save_path+'/model')
+# def saveModel(save_path):
+#     init_op = tf.initialize_all_variables()
+#     saver = tf.train.Saver()
+#     sess = tf.Session()
+#     sess.run(init_op)
+#     c_utils.createDir(save_path)
+#     saver.save(sess, save_path+'/model')
 
 def loadModel(loadPath, sess, saver):
     saver.restore(sess, loadPath+'/model')
@@ -41,27 +41,27 @@ def initializeLastLayer(modelPath, sess, networksPrefixes, verbose=False):
 
 
 
-# Test it
-policy_network, value_network = c_utils.createPolicyValueNetworks(4,
-                                                                  4,
-                                                                  0.001,
-                                                                  0.001,
-                                                                  False,
-                                                                  False)
-
-savedPath = './tmp_models/actor_critic_mcc_Pshallow_Vshallow/lr_p=0.001_lr_v=0.01'
-
-# # Save a temp model
-# saveModel(save_path=savedPath)
-
-# Load temp model
-saver = tf.train.Saver()
-sess = tf.Session()
-loadModel(loadPath=savedPath, sess=sess, saver=saver)
-
-# Initialize last layer weights
-networksPrefixes_list = ['policy_network_shallow', 'value_network_shallow']
-initializeLastLayer(modelPath=savedPath, sess=sess, networksPrefixes=networksPrefixes_list, verbose=True)
-
-exit(0)
+# # Test it
+# policy_network, value_network = c_utils.createPolicyValueNetworks(4,
+#                                                                   4,
+#                                                                   0.001,
+#                                                                   0.001,
+#                                                                   False,
+#                                                                   False)
+#
+# savedPath = './tmp_models/actor_critic_mcc_Pshallow_Vshallow/lr_p=0.001_lr_v=0.01'
+#
+# # # Save a temp model
+# # saveModel(save_path=savedPath)
+#
+# # Load temp model
+# saver = tf.train.Saver()
+# sess = tf.Session()
+# loadModel(loadPath=savedPath, sess=sess, saver=saver)
+#
+# # Initialize last layer weights
+# networksPrefixes_list = ['policy_network_shallow', 'value_network_shallow']
+# initializeLastLayer(modelPath=savedPath, sess=sess, networksPrefixes=networksPrefixes_list, verbose=True)
+#
+# exit(0)
 

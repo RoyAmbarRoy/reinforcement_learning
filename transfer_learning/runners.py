@@ -13,7 +13,7 @@ def softMax(arr):
 
 def chooseAction(actions_distribution, env_action_size, do_softmax=False):
     # Ignore unnecessary actions
-    actions_distribution = actions_distribution[0:env_action_size]
+    actions_distribution = actions_distribution[0][0:env_action_size]
     if do_softmax:
         actions_distribution = softMax(actions_distribution)
     # Normalize the distribution (sum to 1)
