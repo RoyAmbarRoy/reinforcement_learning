@@ -25,7 +25,7 @@ action_size_list = [env_cp.action_space.n, CONTINUOUS_N_OF_BINS, env_acrobot.act
 max_state_size = max(state_size_list)
 max_action_size = max(action_size_list)
 
-envs_convergence_list = [475, 80, -100]
+envs_convergence_list = [475, 80, -90]
 
 print('max state size: {}'.format(max_state_size))
 print('max action size: {}'.format(max_action_size))
@@ -50,8 +50,8 @@ PATH_LOAD_MODEL_LIST = ['./saved_models/actor_critic_cp',
                         './saved_models/actor_critic_acrobot']
 
 discount_factor = 0.99
-lr_list_policy = [0.001, 0.0001]
-lr_list_value = [0.01, 0.005, 0.001]
+lr_list_policy = [0.0001]# [0.001, 0.0001]
+lr_list_value = [0.001] #[0.01, 0.005, 0.001]
 
 render = False
 
