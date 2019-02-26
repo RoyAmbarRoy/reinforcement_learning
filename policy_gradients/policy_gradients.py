@@ -2,7 +2,7 @@ import gym
 import numpy as np
 import tensorflow as tf
 import collections
-import utils
+import policy_gradients.utils as utils
 
 
 env = gym.make('CartPole-v1')
@@ -34,14 +34,14 @@ class PolicyNetwork:
 
             # Softmax probability distribution over actions
             self.actions_distribution = tf.squeeze(tf.nn.softmax(self.output))
-            # Loss with negative log probability
+            # Loss with negative saved_logs probability
             self.neg_log_prob = tf.nn.softmax_cross_entropy_with_logits_v2(logits=self.output, labels=self.action)
             self.loss = tf.reduce_mean(self.neg_log_prob * self.R_t)
             self.optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate).minimize(self.loss)
 
 
 # Log path
-PATH_LOG = './log/policy_gradients'
+PATH_LOG = './saved_logs/policy_gradients'
 
 # Define hyperparameters
 state_size = 4
@@ -111,7 +111,7 @@ for lr in lr_list:
                 _, loss = sess.run([policy.optimizer, policy.loss], feed_dict)
                 losses.append(loss)
 
-            # Write summaries to the log file
+            # Write summaries to the saved_logs file
             avg_loss = np.mean(losses)
             file_writer.add_summary(utils.create_summary('rewards', episode_rewards[episode]), episode)
             file_writer.add_summary(utils.create_summary('rewards (last 100)', average_rewards), episode)
