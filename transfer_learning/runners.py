@@ -6,21 +6,20 @@ import transfer_learning.utils.model_loaders as m_loaders
 def padArrZeros(arr, pad_size):
     return np.pad(arr, (0, pad_size), 'constant')
 
-def chooseAction(actions_distribution, env_action_size):
-    # Ignore unnecessary actions
-    print(actions_distribution)
-    actions_distribution = actions_distribution[0:env_action_size]
-    # Normalize the distribution (sum to 1)
-    print(actions_distribution)
-    print(sum(actions_distribution))
-    actions_distribution /= sum(actions_distribution)
-    print(actions_distribution)
-    print(sum(actions_distribution))
+def softMax(arr):
+    e_sum = sum([np.e ** a for a in arr])
+    soft_max = [np.e ** a / e_sum for a in arr]
+    return soft_max
 
+def chooseAction(actions_distribution, env_action_size, do_softmax=False):
+    # Ignore unnecessary actions
+    actions_distribution = actions_distribution[0:env_action_size]
+    if do_softmax:
+        actions_distribution = softMax(actions_distribution)
+    # Normalize the distribution (sum to 1)
+    actions_distribution /= sum(actions_distribution)
     # Stochastically select the action - choose action with created action probabilities
     action = np.random.choice(np.arange(len(actions_distribution)), p=actions_distribution)
-    print(action)
-    print('\n\n')
     return action
 
 def buildPath(initial_path, p_net_deepness, v_net_deepness, lr_p, lr_v):
@@ -110,10 +109,12 @@ def actorCriticRunner(env,
 
                             for step in range(max_steps):
                                 # predict actions
-                                actions_distribution = sess.run(policy_network.actions_distribution,
+                                actions_distribution = sess.run(policy_network.output,
                                                                 {policy_network.state: state})
+                                #actions_distribution = sess.run(policy_network.actions_distribution,
+                                #                                {policy_network.state: state})
 
-                                action = chooseAction(actions_distribution, env_action_size)
+                                action = chooseAction(actions_distribution, env_action_size, True)
                                 action_one_hot = c_utils.createOneHot(action_size, action)
 
                                 action = [actions_continuous[action]] if env_name == 'MCC' else action
