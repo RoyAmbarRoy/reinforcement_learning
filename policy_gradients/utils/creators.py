@@ -1,5 +1,5 @@
 import tensorflow as tf
-from policy_gradients_intro.models import neural_nets as nns
+from policy_gradients.models import neural_nets as nns
 
 
 def create_summary(tag, simple_value):

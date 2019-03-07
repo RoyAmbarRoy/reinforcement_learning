@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 import collections
 import time
-from policy_gradients_intro.utils import creators
+from policy_gradients.utils import creators
 
 env = gym.make('CartPole-v1')
 # env._max_episode_steps = None
